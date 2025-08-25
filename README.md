@@ -1,24 +1,16 @@
-# Student Accounts COBOL Project Documentation
-
-...existing documentation...
-
----
-
 ## Sequence Diagram: Student Account Data Flow
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant STUDACC.CBL
-    participant STUDTRAN.CBL
-    participant STUDRPT.CBL
+    participant main.cob
+    participant operations.cob
+    participant data.cob
     participant Database
 
-    User->>STUDACC.CBL: Create/Update/Delete Student Account
-    STUDACC.CBL->>Database: Store/Retrieve Student Data
-    User->>STUDTRAN.CBL: Submit Transaction (Payment/Charge)
-    STUDTRAN.CBL->>Database: Update Account Balance
-    STUDTRAN.CBL->>STUDACC.CBL: Validate Student Account
-    User->>STUDRPT.CBL: Request Account Report
-    STUDRPT.CBL->>Database: Query Account Data
-    STUDRPT.CBL
+    User->>main.cob: Start accounting operation
+    main.cob->>operations.cob: Request business logic (e.g., payment, report)
+    operations.cob->>data.cob: Access/modify student account data
+    data.cob->>Database: Read/write student account records
+    operations.cob->>main.cob: Return operation result
+    main.cob->>User:
